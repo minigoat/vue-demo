@@ -1,0 +1,437 @@
+/* 优化中文网页重设与排版 https://github.com/sofish/typo.css */
+@import "./var.less";
+@import "./fn.less";
+
+/* 防止用户自定义背景颜色对网页的影响，添加让用户可以自定义字体 */
+html {
+  color: @color-dark-grey;
+  background: white;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-rendering: optimizelegibility;
+}
+html, body {
+  height: 100%;
+}
+
+/* 如果你的项目仅支持 IE9+ | Chrome | Firefox 等，推荐在 <html> 中添加 .borderbox 这个 class */
+.borderbox *, .borderbox *:before, .borderbox *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* 内外边距通常让各个浏览器样式的表现位置不同 */
+body, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td, hr, button, article, aside, details, figcaption, figure, footer, header, menu, nav, section {
+  margin: 0;
+  padding: 0;
+}
+
+/* 重设 HTML5 标签, IE 需要在 js 中 createElement(TAG) */
+article, aside, details, figcaption, figure, footer, header, menu, nav, section {
+  display: block;
+}
+
+/* HTML5 媒体文件跟 img 保持一致 */
+audio, canvas, video {
+  display: inline-block;
+}
+
+/* 要注意表单元素并不继承父级 font 的问题 */
+body, button, input, select, textarea {
+  font: 300 1em/1.8 PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans;
+}
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+/* 去掉各Table cell 的边距并让其边重合 */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* 去除默认边框 */
+fieldset, img {
+  border: 0;
+}
+
+/* 块/段落引用 */
+blockquote {
+  position: relative;
+  color: @color-grey;
+  font-weight: 400;
+  border-left: 1px solid @color-base;
+  padding-left: 1em;
+  margin: 1em 3em 1em 2em;
+}
+
+@media only screen and ( max-width: 640px ) {
+  blockquote {
+    margin: 1em 0;
+  }
+}
+
+/* Firefox 以外，元素没有下划线，需添加 */
+acronym, abbr {
+  border-bottom: 1px dotted;
+  font-variant: normal;
+}
+
+/* 添加鼠标问号，进一步确保应用的语义是正确的（要知道，交互他们也有洁癖，如果你不去掉，那得多花点口舌） */
+abbr {
+  cursor: help;
+}
+
+/* 一致的 del 样式 */
+del {
+  text-decoration: line-through;
+}
+
+address, caption, cite, code, dfn, em, th, var {
+  font-style: normal;
+  font-weight: 400;
+}
+
+/* 去掉列表前的标识, li 会继承，大部分网站通常用列表来很多内容，所以应该当去 */
+ul, ol {
+  list-style: none;
+}
+
+/* 对齐是排版最重要的因素, 别让什么都居中 */
+caption, th {
+  text-align: left;
+}
+
+q:before, q:after {
+  content: '';
+}
+
+/* 统一上标和下标 */
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+}
+
+:root sub, :root sup {
+  vertical-align: baseline; /* for ie9 and other modern browsers */
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+/* 让链接在 hover 状态下显示下划线 */
+
+a {
+  color: @color-a-base;
+  background-color: transparent;
+}
+
+a:active,
+a:hover {
+  outline: 0;
+}
+
+/* 自定义公共样式
+   ========================================================================== */
+
+/* 可拖动文件添加拖动手势 */
+[draggable] {
+  cursor: move;
+}
+
+.clearfix:before, .clearfix:after {
+  content: "";
+  display: table;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+.clearfix {
+  zoom: 1;
+}
+
+.hide {
+  display: none;
+}
+
+input, textarea {
+  &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: @color-grey;
+  }
+  &::-moz-placeholder { /* Firefox 19+ */
+    color: @color-grey;
+  }
+  &:-ms-input-placeholder { /* IE 10+ */
+    color: @color-grey;
+  }
+  &:-moz-placeholder { /* Firefox 18- */
+    color: @color-grey;
+  }
+}
+
+#nprogress .bar {
+  background-color: @color-base;
+}
+
+.danger-text-button {
+  color: @color-danger;
+  &:hover, &:focus {
+    color: lighten(@color-danger, 10%);
+  }
+  &:active {
+    color: darken(@color-danger, 5%);
+  }
+}
+// 表格 table 公共样式
+@content-margin: 24px;
+
+.el-table {
+  th {
+    background-color: #eef1f6;
+    border-color: #dfe6ec;
+  }
+  thead {
+    color: #1f2d3d;
+  }
+  td {
+    border-color: #dfe6ec;
+  }
+  &--medium {
+    th, td {
+      padding: inherit;
+      height: 40px;
+    }
+  }
+}
+
+.right-button-group {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  .el-button {
+    flex: auto;
+    margin-left: 24px;
+  }
+}
+
+.page {
+  padding: @content-margin ~"calc((100% - 23 * 24px) / 24)";  // column num is 24, gutter width is 24px
+  .title {
+    font-size: 16px;
+    color: #8492A6;
+    font-weight: normal;
+    margin-bottom: 16px;
+  }
+  .top-toolbar {
+    position: relative;
+    border-bottom: 1px solid rgba(179, 191, 184, .2);
+    .el-form--inline {
+      .el-form-item {
+        margin-bottom: @content-margin;
+        margin-right: 35px;
+        &:last-child {
+          margin-right: 0;
+        }
+        .el-input {
+          width: 170px;
+        }
+        .el-form-item__label {
+          font-size: 16px;
+          padding-right: 24px;
+        }
+        &.long-form-item {
+          .el-input {
+            width: 470px;
+          }
+        }
+      }
+    }
+    > .right-button-group {
+      bottom: @content-margin;
+    }
+  }
+  .middle-content {
+    padding: 24px;
+    padding-bottom: 0;
+    margin: 0 auto;
+    > .button-group {
+      margin-top: -11px;
+      margin-bottom: 16px;
+      button {
+        margin-left: 0;
+        margin-right: 15px;
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+    > .bottom-toolbar {
+      padding: @content-margin 0;
+    }
+  }
+}
+
+th {
+  font-weight: 400;
+}
+
+.el-table__fixed-body-wrapper td {
+  background-color: #EFF2F7;
+}
+
+// 表单 form 公共样式
+.mis-form {
+  margin: 10px auto;
+  .el-select {
+    width: 100%;
+  }
+  .el-checkbox-group, .el-radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    >label {
+      flex: 0 0 50%;
+      margin-left: 0;
+    }
+    &.single-line-group {
+      height: 36px;
+      align-items: center;
+    }
+  }
+}
+.center-form {
+  padding: 0 25%;
+}
+.form-button-group {
+  padding: 22px 0 10px;
+  text-align: right;
+  border-top: 1px solid @color-border;
+}
+.center-form-button-group {
+  padding-left: 25%;
+  padding-right: 25%;
+}
+
+// 卡片详情页
+@card-line-height: 28px;
+
+.mis-card-wrap {
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: -@content-margin;
+  .mis-card {
+    flex: 0 0 ~"calc(50% - 24px / 2)";
+    border: 1px solid #E0E6ED;
+    border-radius: 2px;
+    margin-bottom: @content-margin;
+    &-header {
+      position: relative;
+      height: 50px;
+      background-color: #E5E9F2;
+      .title {
+        font-size: 14px;
+        color: #475669;
+        font-weight: normal;
+        line-height: 50px;
+        padding-left: 18px;
+      }
+      .right-button-group {
+        right: 24px;
+        bottom: 10px;
+        .el-button {
+          padding: 7px 15px;
+        }
+      }
+    }
+    &-body {
+      margin: 6px 0 -6px 0;
+      height: 274px;
+      display: flex;
+      flex-flow: column wrap;
+      align-content: space-between;
+      .el-form-item {
+        width: 50%;
+        padding: 0 @gutter-width;
+        height: @card-line-height;
+        flex: 0 0 @card-line-height;
+        margin-bottom: 11px;
+        .el-form-item__label {
+          font-size: 13px;
+          color: #8492A6;
+          width: 50%;
+          padding: 0;
+          line-height: @card-line-height;
+          text-align: left;
+          border-bottom: 1px solid rgba(211,220,230,0.2);
+          .ellipsisNoWidth();
+          &:before {
+            display: none;
+          }
+        }
+        .el-form-item__content, .el-input__inner {
+          font-size: 13px;
+          color: #4A4A4A;
+          height: @card-line-height;
+          line-height: @card-line-height;
+          text-align: right;
+          .ellipsisNoWidth();
+        }
+        .el-form-item__content {
+          float: right;
+          width: 50%;
+          border-bottom: 1px solid rgba(211,220,230,0.2);
+        }
+        &.no-border {
+          .el-form-item__label, .el-form-item__content {
+            border-bottom: 0;
+          }
+        }
+        .el-input__icon {
+          line-height: @card-line-height;
+        }
+      }
+      &.isEdit {
+        .el-form-item {
+          padding-left: 0;
+          .el-form-item__label {
+            width: ~"calc((100% - 4 * 24px) / 5 * 2 + 24px * 2)";
+            padding: 0 @gutter-width 0 0;
+            text-align: right;
+            border-bottom: 0;
+          }
+          .el-form-item__content, .el-input__inner {
+            text-align: left;
+          }
+          .el-form-item__content {
+            width: ~"calc((100% - 4 * 24px) / 5 * 3 + 24px * 2)";
+            border-bottom: 0;
+            .el-date-editor.el-input {
+              width: 100%;
+            }
+          }
+        }
+      }
+      &-horizontal {
+        flex-direction: row;
+        align-content: flex-start;
+        .el-form-item {
+          flex: 0 0 50%;
+        }
+      }
+    }
+  }
+}
